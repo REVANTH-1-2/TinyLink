@@ -61,6 +61,8 @@ services:
     build: ./frontend
     container_name: tinylink-frontend
     restart: always
+    environment:
+      - BACKEND_HOST=tinylink-backend
     ports:
       - "80:80"
     depends_on:
