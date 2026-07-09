@@ -1,6 +1,7 @@
 package com.tinylink.service;
 
 import com.tinylink.entity.RefreshToken;
+import com.tinylink.entity.User;
 import com.tinylink.exception.UnauthorizedException;
 import com.tinylink.repository.RefreshTokenRepository;
 import com.tinylink.repository.UserRepository;
