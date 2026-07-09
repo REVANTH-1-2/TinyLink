@@ -46,9 +46,9 @@ services:
       - key: JWT_SECRET
         generateValue: true # Generates a secure random 256-bit key automatically
       - key: FRONTEND_URL
-        value: https://tinylink-app.onrender.com # Replace with your actual frontend Render URL after creation
+        value: https://tinylink-frontend-y72l.onrender.com
       - key: APP_BACKEND_URL
-        value: https://tinylink-api.onrender.com # Replace with your actual backend Render URL after creation
+        value: https://tinylink-backend-o178.onrender.com
 
   # 3. React Frontend (served via Nginx)
   - type: web
@@ -59,7 +59,7 @@ services:
     plan: free
     envVars:
       - key: VITE_API_URL
-        value: https://tinylink-api.onrender.com/api # Points Nginx reverse proxy to backend API
+        value: https://tinylink-backend-o178.onrender.com/api # Points Nginx reverse proxy to backend API
 
 # 4. PostgreSQL Database Instance
 databases:
