@@ -1,0 +1,68 @@
+services:
+  # 1. Redis Cache Service
+  - type: redis
+    name: tinylink-redis
+    plan: free
+    ipAllowList: [] # Restrict access to internal services only
+
+  # 2. Java Spring Boot Backend
+  - type: web
+    name: tinylink-backend
+    env: docker
+    dockerFilePath: backend/Dockerfile
+    dockerContext: backend
+    plan: free
+    envVars:
+      - key: DB_HOST
+        fromDatabase:
+          name: tinylink-db
+          property: host
+      - key: DB_PORT
+        fromDatabase:
+          name: tinylink-db
+          property: port
+      - key: DB_NAME
+        fromDatabase:
+          name: tinylink-db
+          property: database
+      - key: DB_USER
+        fromDatabase:
+          name: tinylink-db
+          property: username
+      - key: DB_PASSWORD
+        fromDatabase:
+          name: tinylink-db
+          property: password
+      - key: REDIS_HOST
+        fromService:
+          type: redis
+          name: tinylink-redis
+          property: host
+      - key: REDIS_PORT
+        fromService:
+          type: redis
+          name: tinylink-redis
+          property: port
+      - key: JWT_SECRET
+        generateValue: true # Generates a secure random 256-bit key automatically
+      - key: FRONTEND_URL
+        value: https://tinylink-app.onrender.com # Replace with your actual frontend Render URL after creation
+      - key: APP_BACKEND_URL
+        value: https://tinylink-api.onrender.com # Replace with your actual backend Render URL after creation
+
+  # 3. React Frontend (served via Nginx)
+  - type: web
+    name: tinylink-frontend
+    env: docker
+    dockerFilePath: frontend/Dockerfile
+    dockerContext: frontend
+    plan: free
+    port: 80
+    envVars:
+      - key: VITE_API_URL
+        value: https://tinylink-api.onrender.com/api # Points Nginx reverse proxy to backend API
+
+# 4. PostgreSQL Database Instance
+databases:
+  - name: tinylink-db
+    plan: free

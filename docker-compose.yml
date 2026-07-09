@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Database Service
+  db:
+    image: postgres:16-alpine
+    container_name: tinylink-postgres
+    restart: always
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+      POSTGRES_DB: tinylink
+    ports:
+      - "5432:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d tinylink"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Cache Service
+  redis:
+    image: redis:7-alpine
+    container_name: tinylink-redis
+    restart: always
+    ports:
+      - "6379:6379"
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
+
+  # Spring Boot Backend
+  backend:
+    build: ./backend
+    container_name: tinylink-backend
+    restart: always
+    environment:
+      - DB_HOST=db
+      - DB_PORT=5432
+      - DB_NAME=tinylink
+      - DB_USER=postgres
+      - DB_PASSWORD=postgres
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+      - JWT_SECRET=407f3f6153724c3a72666a7b7a6951234c676451676f4e643034737a38753235
+      - FRONTEND_URL=http://localhost
+      - APP_BACKEND_URL=http://localhost
+    ports:
+      - "8080:8080"
+    depends_on:
+      db:
+        condition: service_healthy
+      redis:
+        condition: service_healthy
+
+  # Nginx + React Frontend
+  frontend:
+    build: ./frontend
+    container_name: tinylink-frontend
+    restart: always
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:
