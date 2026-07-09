@@ -29,15 +29,21 @@ public class RefreshTokenService {
 
     @Transactional
     public RefreshToken createRefreshToken(Long userId) {
-        RefreshToken refreshToken = new RefreshToken();
+        User user = userRepository.findById(userId)
+                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId));
 
-        refreshToken.setUser(userRepository.findById(userId)
-                .orElseThrow(() -> new RuntimeException("User not found with id: " + userId)));
+        Optional<RefreshToken> existingTokenOpt = refreshTokenRepository.findByUser(user);
+        
+        RefreshToken refreshToken;
+        if (existingTokenOpt.isPresent()) {
+            refreshToken = existingTokenOpt.get();
+        } else {
+            refreshToken = new RefreshToken();
+            refreshToken.setUser(user);
+        }
+
         refreshToken.setExpiryDate(Instant.now().plusMillis(refreshTokenDurationMs));
         refreshToken.setToken(UUID.randomUUID().toString());
-
-        // Evict any existing token for the user first to enforce single-session / clean up
-        refreshTokenRepository.deleteByUser(refreshToken.getUser());
 
         return refreshTokenRepository.save(refreshToken);
     }
