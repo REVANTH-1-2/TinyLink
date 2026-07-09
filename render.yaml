@@ -58,11 +58,6 @@ services:
     dockerContext: frontend
     plan: free
     envVars:
-      - key: BACKEND_HOST
-        fromService:
-          type: web
-          name: tinylink-backend
-          property: host
       - key: VITE_API_URL
         value: https://tinylink-api.onrender.com/api # Points Nginx reverse proxy to backend API
 
