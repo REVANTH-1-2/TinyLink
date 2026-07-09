@@ -9,10 +9,7 @@ RUN npm run build
 # Stage 2: Serve React via Nginx
 FROM nginx:stable-alpine
 COPY --from=builder /app/dist /usr/share/nginx/html
-# Copy Nginx custom configuration as a template for envsubst
-COPY nginx.conf /etc/nginx/templates/default.conf.template
-# Copy custom entrypoint to discover DNS resolver
-COPY entrypoint.sh /entrypoint.sh
+# Copy Nginx custom configuration
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 EXPOSE 80
-ENTRYPOINT ["/entrypoint.sh"]
 CMD ["nginx", "-g", "daemon off;"]
