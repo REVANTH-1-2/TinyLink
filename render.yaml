@@ -1,9 +1,8 @@
 services:
   # 1. Redis Cache Service
-  - type: redis
+  - type: keyvalue
     name: tinylink-redis
     plan: free
-    ipAllowList: [] # Restrict access to internal services only
 
   # 2. Java Spring Boot Backend
   - type: web
@@ -35,12 +34,12 @@ services:
           property: password
       - key: REDIS_HOST
         fromService:
-          type: redis
+          type: keyvalue
           name: tinylink-redis
           property: host
       - key: REDIS_PORT
         fromService:
-          type: redis
+          type: keyvalue
           name: tinylink-redis
           property: port
       - key: JWT_SECRET
