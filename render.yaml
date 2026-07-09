@@ -56,7 +56,6 @@ services:
     dockerfilePath: frontend/Dockerfile
     dockerContext: frontend
     plan: free
-    port: 80
     envVars:
       - key: VITE_API_URL
         value: https://tinylink-api.onrender.com/api # Points Nginx reverse proxy to backend API
