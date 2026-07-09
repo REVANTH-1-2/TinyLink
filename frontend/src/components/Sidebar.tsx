@@ -5,7 +5,7 @@ import { LayoutDashboard, PlusCircle, User, Settings, Link2 } from 'lucide-react
 const Sidebar: React.FC = () => {
   const links = [
     { to: '/dashboard', label: 'Dashboard', icon: LayoutDashboard },
-    { to: '/create', label: 'Create URL', icon: PlusCircle },
+    { to: '/tinylink', label: 'Create URL', icon: PlusCircle },
     { to: '/profile', label: 'Profile Settings', icon: User },
   ];
 

@@ -105,7 +105,7 @@ const DashboardPage: React.FC = () => {
             </div>
 
             <Link
-              to="/create"
+              to="/tinylink"
               className="flex items-center justify-center space-x-1.5 rounded-xl bg-brand-600 px-4 py-2.5 text-sm font-semibold text-white hover:bg-brand-700 shadow-md shadow-brand-500/10 transition-all duration-200"
             >
               <Plus className="h-4 w-4" />

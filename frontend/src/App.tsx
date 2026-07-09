@@ -74,7 +74,7 @@ const App: React.FC = () => {
               
               {/* Protected Workspace */}
               <Route path="/dashboard" element={<ProtectedRoute><DashboardPage /></ProtectedRoute>} />
-              <Route path="/create" element={<ProtectedRoute><CreateUrlPage /></ProtectedRoute>} />
+              <Route path="/tinylink" element={<ProtectedRoute><CreateUrlPage /></ProtectedRoute>} />
               <Route path="/analytics/:id" element={<ProtectedRoute><AnalyticsPage /></ProtectedRoute>} />
               <Route path="/profile" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
               <Route path="/settings" element={<ProtectedRoute><ProfilePage /></ProtectedRoute>} />
