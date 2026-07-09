@@ -12,8 +12,8 @@ TinyLink employs a containerized reverse-proxy architecture using Nginx. Request
 graph TD
     Client[Web Browser Client] -->|Port 80| Nginx[Nginx Reverse Proxy]
     Nginx -->|Static Assets / Routes| SPA[React Single Page Application]
-    Nginx -->|/api/*| SpringBoot[Spring Boot Backend App]
-    Nginx -->|/{shortCode}| SpringBoot
+    Nginx -->|"/api/*"| SpringBoot[Spring Boot Backend App]
+    Nginx -->|"/{shortCode}"| SpringBoot
     SpringBoot -->|JWT Auth & SQL| PostgreSQL[(PostgreSQL Database)]
     SpringBoot -->|Cached URL Lookups| Redis[(Redis Key-Value Store)]
 ```
