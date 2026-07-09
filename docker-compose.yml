@@ -50,6 +50,10 @@ services:
       - APP_BACKEND_URL=http://localhost
     ports:
       - "8080:8080"
+    networks:
+      default:
+        aliases:
+          - tinylink-backend-o178
     depends_on:
       db:
         condition: service_healthy
