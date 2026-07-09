@@ -3,6 +3,7 @@ services:
   - type: keyvalue
     name: tinylink-redis
     plan: free
+    ipAllowList: []
 
   # 2. Java Spring Boot Backend
   - type: web
@@ -27,7 +28,7 @@ services:
       - key: DB_USER
         fromDatabase:
           name: tinylink-db
-          property: username
+          property: user
       - key: DB_PASSWORD
         fromDatabase:
           name: tinylink-db
